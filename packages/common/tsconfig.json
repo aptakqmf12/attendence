@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "include": [
+    "assets",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "index.ts",
+    "../../types"
+  ]
+}
