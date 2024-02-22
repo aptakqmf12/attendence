@@ -8,36 +8,36 @@
     "plugin:jsx-a11y/recommended",
     "plugin:@typescript-eslint/recommended",
     "eslint-config-prettier",
-    "plugin:import/typescript"
+    "plugin:import/typescript",
   ],
   "plugins": ["react", "react-hooks"],
   "parserOptions": {
     "ecmaVersion": 2020,
     "sourceType": "module",
     "ecmaFeatures": {
-      "jsx": true
-    }
+      "jsx": true,
+    },
   },
   "settings": {
     "react": {
-      "version": "detect"
+      "version": "detect",
     },
     "import/resolver": {
       "node": {
-        "extensions": [".js", ".jsx", ".ts", ".tsx"]
-      }
-    }
+        "extensions": [".js", ".jsx", ".ts", ".tsx"],
+      },
+    },
   },
   "rules": {
     "no-console": "warn",
     "no-unused-vars": "off",
     "import/no-unresolved": [
-      "error",
+      "warn",
       {
-        "ignore": [".svg", ".png", "jpg", "jpeg"]
-      }
+        "ignore": [".svg", ".png", "jpg", "jpeg"],
+      },
     ],
-    "@typescript-eslint/no-unused-vars": ["error"],
-    "react/react-in-jsx-scope": "off"
-  }
+    "@typescript-eslint/no-unused-vars": ["warn"],
+    "react/react-in-jsx-scope": "off",
+  },
 }

@@ -1,3 +1,11 @@
 {
   "exclude": ["packages/**/dist/**"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@component": ["src/component/*"],
+      "@api": ["src/api/*"],
+      "@types": ["src/types/*"]
+    }
+  }
 }
