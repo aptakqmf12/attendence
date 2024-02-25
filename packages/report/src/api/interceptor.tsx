@@ -4,19 +4,20 @@ import axios, { AxiosResponse } from 'axios';
 export default function AxiosInterceptor() {
   const [loading, setLoading] = useState<boolean>(false);
 
-  const client = axios.create({
-    baseURL: '',
-  });
-
   useEffect(() => {
-    client.interceptors.request.use(
+    const accessToken = localStorage.getItem('access_token');
+
+    if (!accessToken) {
+      return;
+    }
+
+    axios.interceptors.request.use(
       (config) => {
         setLoading(true);
 
-        if (!config.url?.endsWith('/login')) {
-          const accessToken = 'Bearer ' + localStorage.getItem('access_token');
-          config.headers.Authorization = accessToken;
-        }
+        // if (!config.url?.endsWith('/login')) {
+        //   config.headers.Authorization = 'Bearer ' + accessToken;
+        // }
 
         return config;
       },
@@ -25,7 +26,7 @@ export default function AxiosInterceptor() {
       // },
     );
 
-    client.interceptors.response.use(
+    axios.interceptors.response.use(
       (config: AxiosResponse) => {
         setLoading(false);
         return config;
