@@ -240,6 +240,7 @@ const handlers: HttpHandler[] = [
       return HttpResponse.json({ result: mock_attendees });
     },
   ),
+
   http.post<
     { attendeeId: string },
     { code: Attendance['code'] },

@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react';
-import dayjs from 'dayjs';
 import { Container, Pagination } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
 import DataGrid from '@wooriga/common/src/components/Mui/datagrid/DataGrid';
 import DialogModal from './component/modal';
-
 import { getAttendeeList, getAttendee } from '../../api/index';
 import { formatDateTime, formatPhoneNumber } from '../../utils';
 import { User } from '../../types/index';
 
+import Header from './component/header';
 const Page = () => {
+  const [currentPage, setCurrentPage] = useState(1);
   const [list, setList] = useState<User[]>([]);
   const [modal, setModal] = useState<{ open: boolean; user: User | undefined }>(
     {
@@ -53,7 +53,6 @@ const Page = () => {
         return (
           <button
             onClick={() => {
-              console.log('params', params);
               setModal({ open: true, user: params.row });
             }}
           >
@@ -70,11 +69,16 @@ const Page = () => {
     setModal((prev) => ({ ...prev, open: false }));
   };
 
+  const handlePaginationChange = (_, page: number) => {
+    setCurrentPage(page);
+  };
+
   useEffect(() => {
-    getAttendeeList().then(() => {});
+    // list 요청
+    // setList
+  }, [currentPage]);
 
-    getAttendee('1').then(() => {});
-
+  useEffect(() => {
     setList([
       {
         id: '1',
@@ -105,9 +109,18 @@ const Page = () => {
       maxWidth="xl"
       sx={{ paddingTop: '24px', paddingBottom: '24px', height: 400 }}
     >
-      <DataGrid rows={list} columns={columns} pagination={undefined} />
+      <Header />
 
-      <Pagination count={10} shape="rounded" showFirstButton showLastButton />
+      <DataGrid rows={list} columns={columns} />
+
+      <Pagination
+        count={Math.ceil(list.length / 10)}
+        page={currentPage}
+        onChange={handlePaginationChange}
+        shape="rounded"
+        showFirstButton
+        showLastButton
+      />
 
       {modal.open && modal.user && (
         <DialogModal {...modal.user} handleCloseModal={handleCloseModal} />

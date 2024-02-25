@@ -4,6 +4,7 @@ import Button from '@wooriga/common/src/components/Mui/inputs/Button';
 import TextField from '@wooriga/common/src/components/Mui/inputs/TextField';
 
 import { requestLogin } from '../../api/index';
+import { useUserStore } from '../../store/user';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
@@ -12,6 +13,8 @@ const Login = () => {
   const [idValid, setIdValid] = useState<undefined | boolean>();
   const [password, setPassword] = useState('');
   const [passwordValid, setPasswordValid] = useState<undefined | boolean>();
+
+  const { setIsLogin, setSession } = useUserStore();
 
   const handleIdChange = (e: ChangeEvent<HTMLInputElement>) => {
     setId(e.currentTarget.value);
@@ -36,6 +39,8 @@ const Login = () => {
 
       localStorage.setItem('access_token', res.data.result.token);
       alert('로그인 성공');
+      setIsLogin(true);
+
       navigate('/');
     } catch (error) {
       console.error(error);
@@ -46,6 +51,7 @@ const Login = () => {
       setPasswordValid(undefined);
     }
   };
+
   return (
     <Container maxWidth="xl">
       <Box width={552}>

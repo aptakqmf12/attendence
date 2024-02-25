@@ -20,15 +20,15 @@ export const requestLogin = async (req: LoginRequest) => {
 };
 
 export const getProfile = async () => {
-  return await client.get('/profile');
+  return await client.get('/api/profile');
 };
 
 export const getAttendee = async (attendeeId: string) => {
-  return await client.get(`/attendees/${attendeeId}`);
+  return await client.get(`/api/attendees/${attendeeId}`);
 };
 
 export const getAttendeeList = async () => {
-  return await client.get('/attendees');
+  return await client.get('/api/attendees');
 };
 
 export const updateAttendee = async (attendeeId: string, code: string) => {

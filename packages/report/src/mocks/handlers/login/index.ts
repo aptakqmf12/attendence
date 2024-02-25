@@ -55,6 +55,10 @@ const handlers: HttpHandler[] = [
       );
     },
   ),
+
+  http.get('/test', () => {
+    return HttpResponse.json({ name: 'ktw' });
+  }),
 ];
 
 export default handlers;
