@@ -1,4 +1,4 @@
-type Attendance =
+export type Attendance =
   | { label: '본인'; code: 'MYSELF' }
   | { label: '불참'; code: 'ABSENCE' }
   | { label: '대리인'; code: 'AGENT' }
