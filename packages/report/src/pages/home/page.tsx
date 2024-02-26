@@ -3,12 +3,13 @@ import { Container, Pagination } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
 import DataGrid from '@wooriga/common/src/components/Mui/datagrid/DataGrid';
 import DialogModal from './component/modal';
-import { getAttendeeList, getAttendee } from '../../api/index';
+import { getAttendeeList } from '../../api/index';
 import { formatDateTime, formatPhoneNumber } from '../../utils';
 import { User } from '../../types/index';
-
 import Header from './component/header';
+
 const Page = () => {
+  const PAGE_PER_SIZE = 10;
   const [currentPage, setCurrentPage] = useState(1);
   const [list, setList] = useState<User[]>([]);
   const [modal, setModal] = useState<{ open: boolean; user: User | undefined }>(
@@ -69,41 +70,24 @@ const Page = () => {
     setModal((prev) => ({ ...prev, open: false }));
   };
 
-  const handlePaginationChange = (_, page: number) => {
+  const handlePaginationChange = (
+    _: React.ChangeEvent<unknown>,
+    page: number,
+  ) => {
     setCurrentPage(page);
   };
 
   useEffect(() => {
-    // list 요청
-    // setList
+    getAttendeeList().then((res) => {
+      setList(res.data.result);
+    });
   }, [currentPage]);
 
-  useEffect(() => {
-    setList([
-      {
-        id: '1',
-        name: '이동주',
-        birth: '19630312',
-        phone: '01052732287',
-        createdAt: '2023.01.12T13:10:00',
-        attendance: {
-          label: '미정',
-          code: 'UNDETERMINED',
-        },
-      },
-      {
-        id: '2',
-        name: '손미나',
-        birth: '19950210',
-        phone: '01063591109',
-        createdAt: '2023.01.12T13:10:00',
-        attendance: {
-          label: '미정',
-          code: 'UNDETERMINED',
-        },
-      },
-    ]);
-  }, []);
+  const filteredList = list.slice(
+    (currentPage - 1) * PAGE_PER_SIZE,
+    currentPage * PAGE_PER_SIZE,
+  );
+
   return (
     <Container
       maxWidth="xl"
@@ -111,10 +95,10 @@ const Page = () => {
     >
       <Header />
 
-      <DataGrid rows={list} columns={columns} />
+      <DataGrid rows={filteredList} columns={columns} />
 
       <Pagination
-        count={Math.ceil(list.length / 10)}
+        count={Math.ceil(list.length / PAGE_PER_SIZE)}
         page={currentPage}
         onChange={handlePaginationChange}
         shape="rounded"
@@ -130,3 +114,12 @@ const Page = () => {
 };
 
 export default Page;
+
+/**
+ *
+ * 1일때
+ * 0~9
+ *
+ * 2일때
+ * 10~ 19
+ */

@@ -9,10 +9,10 @@ import {
 import rootRouter from './router/rootRouter';
 import AxiosInterceptor from './api/interceptor';
 
-if (process.env.NODE_ENV === 'development') {
-  const { worker } = await import('./mocks');
-  worker.start();
-}
+// if (process.env.NODE_ENV === 'development') {
+//   const { worker } = await import('./mocks');
+//   worker.start();
+// }
 
 export default function App() {
   const theme = useMemo(() => getTheme('light'), []);
