@@ -7,17 +7,14 @@ interface SessionType {
 
 interface Store {
   isLogin: boolean;
-  session: SessionType;
+  session: SessionType | null;
   setIsLogin: (isLogin: boolean) => void;
-  setSession: (session: SessionType) => void;
+  setSession: (session: SessionType | null) => void;
 }
 
 export const useUserStore = create<Store>((set) => ({
   isLogin: false,
-  session: {
-    id: '',
-    name: '',
-  },
+  session: null,
   setIsLogin: (isLogin: boolean) => set({ isLogin }),
-  setSession: (session: SessionType) => set({ session }),
+  setSession: (session: SessionType | null) => set({ session }),
 }));

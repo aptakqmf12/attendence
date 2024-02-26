@@ -1,15 +1,36 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { getProfile } from '../../../api/index';
+import { useUserStore } from '../../../store/user';
+
+interface InfoType {
+  id: string;
+  name: string;
+}
 
 export default function Header() {
+  const { setSession, setIsLogin } = useUserStore();
+  const [info, setInfo] = useState<InfoType>();
+
+  const handleDestroySession = () => {
+    setIsLogin(false);
+    setSession(null);
+    localStorage.removeItem('access_token');
+  };
+
+  useEffect(() => {
+    getProfile().then((res) => {
+      setInfo(res.data.result);
+    });
+  }, []);
   return (
     <StyledHeader>
       <h1>EJM COMPANY</h1>
 
       <div>
-        <span>김미영</span>
-        <span>fqfwqqfw</span>
-        <button>로그아웃</button>
+        <span>{info?.name}</span>
+        <span>{info?.id}</span>
+        <button onClick={handleDestroySession}>로그아웃</button>
       </div>
     </StyledHeader>
   );
