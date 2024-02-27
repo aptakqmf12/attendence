@@ -32,8 +32,8 @@ export default function DialogModal({
 
       refetchFn();
       handleCloseModal();
-    } catch (e) {
-      alert(e);
+    } catch (error) {
+      alert(error);
     }
   };
 

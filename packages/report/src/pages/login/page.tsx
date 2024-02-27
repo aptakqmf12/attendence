@@ -14,7 +14,7 @@ const Login = () => {
   const [password, setPassword] = useState('9763^&');
   const [passwordValid, setPasswordValid] = useState<undefined | boolean>();
 
-  const { setIsLogin, setSession } = useUserStore();
+  const { setIsLogin } = useUserStore();
 
   const handleIdChange = (e: ChangeEvent<HTMLInputElement>) => {
     setId(e.currentTarget.value);
@@ -43,7 +43,7 @@ const Login = () => {
 
       navigate('/');
     } catch (error) {
-      console.error(error);
+      alert(error);
 
       alert('로그인 실패');
     } finally {

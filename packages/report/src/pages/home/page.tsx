@@ -96,8 +96,8 @@ const Page = () => {
       if (res.status === 200) {
         setList(res.data.result);
       }
-    } catch (err) {
-      alert(err);
+    } catch (error) {
+      alert(error);
     }
   };
 

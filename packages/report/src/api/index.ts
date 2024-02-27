@@ -10,13 +10,21 @@ type LoginResponse = {
   };
 };
 
+const anonymous = axios.create({
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
 const client = axios.create({
   headers: {
+    'Content-Type': 'application/json',
     Authorization: 'Bearer ' + localStorage.getItem('access_token'),
   },
 });
+
 export const requestLogin = async (req: LoginRequest) => {
-  return await axios.post<LoginResponse>('/login', req);
+  return await anonymous.post<LoginResponse>('/login', req);
 };
 
 export const getProfile = async () => {
@@ -32,13 +40,5 @@ export const getAttendeeList = async () => {
 };
 
 export const updateAttendee = async (attendeeId: string, code: string) => {
-  return await client.post(
-    `/attendees/${attendeeId}`,
-    { code },
-    {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    },
-  );
+  return await client.post(`/attendees/${attendeeId}`, { code });
 };
