@@ -19,4 +19,4 @@
 # 스스로 결정한 사항
 
 - `main.tsx`에 msw 래핑 추가
-- 선거인 상세 조회(/attendees/:attendeeId')는 list의 값과 동일하여 api 호출은 불필요하다 생각되어 생략
+- 선거인 상세 조회('/attendees/:attendeeId')는 list의 값과 동일하여 api 호출은 불필요하다 생각되어 생략
