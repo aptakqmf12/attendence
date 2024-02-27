@@ -2,11 +2,13 @@ import { useState, useEffect } from 'react';
 import { Container, Pagination, Box } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
 import DataGrid from '@wooriga/common/src/components/Mui/datagrid/DataGrid';
+import { Button } from '@wooriga/common/src/components';
 import DialogModal from './component/modal';
 import { getAttendeeList } from '../../api/index';
 import { formatDateTime, formatPhoneNumber } from '../../utils';
 import { User } from '../../types/index';
 import Header from './component/header';
+import Typography from '@mui/material/Typography';
 
 const Page = () => {
   const PAGE_PER_SIZE = 10;
@@ -20,8 +22,17 @@ const Page = () => {
   );
 
   const columns: GridColDef[] = [
-    { field: 'id', headerName: '번호', width: 50, align: 'center' },
-    { field: 'name', headerName: '이름', flex: 1 },
+    {
+      field: 'id',
+      headerName: '번호',
+      width: 100,
+      align: 'center',
+    },
+    {
+      field: 'name',
+      headerName: '이름',
+      flex: 1,
+    },
     {
       field: 'birth',
       headerName: '생년월일',
@@ -52,13 +63,15 @@ const Page = () => {
       headerName: '변경',
       renderCell: (params) => {
         return (
-          <button
+          <Button
+            size="small"
+            variant="outlined"
             onClick={() => {
               setModal({ open: true, user: params.row });
             }}
           >
             변경
-          </button>
+          </Button>
         );
       },
       width: 100,
@@ -77,45 +90,76 @@ const Page = () => {
     setCurrentPage(page);
   };
 
+  const record = async () => {
+    try {
+      const res = await getAttendeeList();
+
+      if (res.status === 200) {
+        setList(res.data.result);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   useEffect(() => {
-    getAttendeeList().then((res) => {
-      setList(res.data.result);
-    });
+    record();
   }, []);
 
-  const filteredList = list.slice(
-    (currentPage - 1) * PAGE_PER_SIZE,
-    currentPage * PAGE_PER_SIZE,
-  );
+  const filteredList = list
+    .sort((after, before) => Number(before.id) - Number(after.id))
+    .slice((currentPage - 1) * PAGE_PER_SIZE, currentPage * PAGE_PER_SIZE);
 
   return (
     <Container maxWidth="xl">
-      <Header />
+      <Typography fontSize={24} fontWeight={700}>
+        참석예정자 정보 조회
+      </Typography>
 
-      <Box
-        display={'flex'}
-        flexDirection={'column'}
-        justifyContent={'center'}
-        alignItems={'center'}
-      >
-        <DataGrid
-          style={{ width: '100%' }}
-          rows={filteredList}
-          columns={columns}
-        />
+      <Box bgcolor={'#fff'} padding={3}>
+        <div>전체 : {list.length}</div>
+        <Box
+          display={'flex'}
+          flexDirection={'column'}
+          justifyContent={'center'}
+          alignItems={'center'}
+        >
+          <Box style={{ width: '100%', height: 700 }}>
+            <DataGrid
+              sx={{
+                width: '100%',
+                height: '100%',
+                '.MuiDataGrid-columnHeaders': {
+                  backgroundColor: '#F5F6F8',
+                },
+              }}
+              rows={filteredList}
+              columns={columns.map((obj) => ({
+                ...obj,
+                sortable: false,
+                disableColumnMenu: true,
+              }))}
+              autoHeight={false}
+            />
+          </Box>
 
-        <Pagination
-          count={Math.ceil(list.length / PAGE_PER_SIZE)}
-          page={currentPage}
-          onChange={handlePaginationChange}
-          shape="rounded"
-          showFirstButton
-          showLastButton
-        />
+          <Pagination
+            count={Math.ceil(list.length / PAGE_PER_SIZE)}
+            page={currentPage}
+            onChange={handlePaginationChange}
+            shape="rounded"
+            showFirstButton
+            showLastButton
+          />
+        </Box>
       </Box>
 
       {modal.open && modal.user && (
-        <DialogModal {...modal.user} handleCloseModal={handleCloseModal} />
+        <DialogModal
+          {...modal.user}
+          handleCloseModal={handleCloseModal}
+          refetchFn={record}
+        />
       )}
     </Container>
   );

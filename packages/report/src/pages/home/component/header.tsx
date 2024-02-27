@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { getProfile } from '../../../api/index';
 import { useUserStore } from '../../../store/user';
+import { Button } from '@wooriga/common/src/components';
+import Container from '@mui/material/Container';
 
 interface InfoType {
   id: string;
@@ -25,26 +27,48 @@ export default function Header() {
   }, []);
   return (
     <StyledHeader>
-      <h1>EJM COMPANY</h1>
+      <Container
+        maxWidth="xl"
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
+        <h1>EJM COMPANY</h1>
 
-      <div>
-        <span>{info?.name}</span>
-        <span>{info?.id}</span>
-        <button onClick={handleDestroySession}>로그아웃</button>
-      </div>
+        <div className="user_info">
+          <span className="user_info_name">{info?.name}</span>
+          <span className="user_info_id">{info?.id}</span>
+          <Button
+            variant="outlined"
+            size="small"
+            onClick={handleDestroySession}
+          >
+            로그아웃
+          </Button>
+        </div>
+      </Container>
     </StyledHeader>
   );
 }
 
 const StyledHeader = styled.header`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   width: 100%;
+  background-color: #fff;
+  margin: 0 auto;
 
   h1 {
     font-size: 20px;
     font-weight: 700;
     color: #777;
+  }
+
+  .user_info {
+    &_name {
+    }
+    &_id {
+      color: #7e7e7e;
+    }
   }
 `;

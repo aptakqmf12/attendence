@@ -2,13 +2,15 @@ import { useState } from 'react';
 import Dialog from '@wooriga/common/src/components/Mui/dialog/Dialog';
 import DialogContent from '@wooriga/common/src/components/Mui/dialog/DialogContent';
 import DialogTitle from '@wooriga/common/src/components/Mui/dialog/DialogTitle';
-import DialogActions from '@wooriga/common/src/components/Mui/dialog/DialogActions';
+
 import RadioGroupField from '@wooriga/common/src/components/Mui/inputs/RadioGroupField';
 import RadioWithLabel from '@wooriga/common/src/components/Mui/inputs/RadioWithLabel';
 import { Button } from '@wooriga/common/src/components';
 import { Typography, Box } from '@mui/material';
 import { User } from '../../../types';
 import { updateAttendee } from '../../../api/index';
+
+import styled from 'styled-components';
 
 export default function DialogModal({
   id,
@@ -17,7 +19,8 @@ export default function DialogModal({
   phone,
   attendance,
   handleCloseModal,
-}: User & { handleCloseModal: () => void }) {
+  refetchFn,
+}: User & { handleCloseModal: () => void; refetchFn: () => void }) {
   const [selectedAttendance, setSelectedAttendance] = useState<string>(
     attendance.code,
   );
@@ -27,6 +30,7 @@ export default function DialogModal({
       const res = await updateAttendee(id, selectedAttendance);
       alert(res.data.message);
 
+      refetchFn();
       handleCloseModal();
     } catch (e) {
       console.error(e);
@@ -35,20 +39,31 @@ export default function DialogModal({
 
   return (
     <Dialog open={true}>
-      <DialogTitle>참석 예정 변경</DialogTitle>
+      <DialogTitle fontSize={24} fontWeight={700}>
+        참석 예정 변경
+      </DialogTitle>
+
       <DialogContent>
-        <Typography>선거인 정보</Typography>
+        <Typography fontSize={18}>선거인 정보</Typography>
+
         <Box>
-          <ul>
-            <li>번호 : {id}</li>
-            <li>이름 : {name}</li>
-            <li>생년월일 : {birth}</li>
-            <li>연락처 : {phone}</li>
-          </ul>
+          <StyledUl>
+            {[
+              { label: '번호', info: id },
+              { label: '이름', info: name },
+              { label: '생년월일', info: birth },
+              { label: '연락처', info: phone },
+            ].map((obj, i) => (
+              <li key={obj.label + i}>
+                <div className="attendee_label">{obj.label}</div>
+                <div className="attendee_info">{obj.info}</div>
+              </li>
+            ))}
+          </StyledUl>
         </Box>
 
         <Typography>참석 예정 유형</Typography>
-        <div>{selectedAttendance}</div>
+
         <RadioGroupField
           radioGroupProps={{
             row: true,
@@ -91,3 +106,26 @@ export default function DialogModal({
     </Dialog>
   );
 }
+
+const StyledUl = styled.ul`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  border: 2px #eee solid;
+  border-radius: 10px;
+  padding: 24px;
+  gap: 16px;
+  list-style: none;
+
+  li {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    .attendee_label {
+      width: 62px;
+      color: #7e7e7e;
+    }
+    .attendee_info {
+      color: #515151;
+    }
+  }
+`;
