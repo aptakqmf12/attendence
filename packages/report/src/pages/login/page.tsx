@@ -9,9 +9,9 @@ import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const navigate = useNavigate();
-  const [id, setId] = useState('');
+  const [id, setId] = useState('akdh12349763');
   const [idValid, setIdValid] = useState<undefined | boolean>();
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState('9763^&');
   const [passwordValid, setPasswordValid] = useState<undefined | boolean>();
 
   const { setIsLogin, setSession } = useUserStore();
@@ -53,7 +53,14 @@ const Login = () => {
   };
 
   return (
-    <Container maxWidth="xl">
+    <Container
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '100vh',
+      }}
+    >
       <Box width={552}>
         <Typography fontSize={40} fontWeight={700} sx={{ color: '#3F76DF' }}>
           로그인

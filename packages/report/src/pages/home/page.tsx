@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Container, Pagination } from '@mui/material';
+import { Container, Pagination, Box } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
 import DataGrid from '@wooriga/common/src/components/Mui/datagrid/DataGrid';
 import DialogModal from './component/modal';
@@ -81,7 +81,7 @@ const Page = () => {
     getAttendeeList().then((res) => {
       setList(res.data.result);
     });
-  }, [currentPage]);
+  }, []);
 
   const filteredList = list.slice(
     (currentPage - 1) * PAGE_PER_SIZE,
@@ -89,22 +89,30 @@ const Page = () => {
   );
 
   return (
-    <Container
-      maxWidth="xl"
-      sx={{ paddingTop: '24px', paddingBottom: '24px', height: 400 }}
-    >
+    <Container maxWidth="xl">
       <Header />
 
-      <DataGrid rows={filteredList} columns={columns} />
+      <Box
+        display={'flex'}
+        flexDirection={'column'}
+        justifyContent={'center'}
+        alignItems={'center'}
+      >
+        <DataGrid
+          style={{ width: '100%' }}
+          rows={filteredList}
+          columns={columns}
+        />
 
-      <Pagination
-        count={Math.ceil(list.length / PAGE_PER_SIZE)}
-        page={currentPage}
-        onChange={handlePaginationChange}
-        shape="rounded"
-        showFirstButton
-        showLastButton
-      />
+        <Pagination
+          count={Math.ceil(list.length / PAGE_PER_SIZE)}
+          page={currentPage}
+          onChange={handlePaginationChange}
+          shape="rounded"
+          showFirstButton
+          showLastButton
+        />
+      </Box>
 
       {modal.open && modal.user && (
         <DialogModal {...modal.user} handleCloseModal={handleCloseModal} />
@@ -114,12 +122,3 @@ const Page = () => {
 };
 
 export default Page;
-
-/**
- *
- * 1일때
- * 0~9
- *
- * 2일때
- * 10~ 19
- */
