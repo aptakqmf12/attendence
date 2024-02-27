@@ -37,5 +37,5 @@ export default function AxiosInterceptor() {
     );
   }, []);
 
-  return loading ? <>...loading</> : <></>;
+  return loading ? <></> : <></>;
 }

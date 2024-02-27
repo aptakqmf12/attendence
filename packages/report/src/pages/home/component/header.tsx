@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import { styled } from 'styled-components';
 import { getProfile } from '../../../api/index';
 import { useUserStore } from '../../../store/user';
 import { Button } from '@wooriga/common/src/components';

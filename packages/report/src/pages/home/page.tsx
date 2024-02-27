@@ -7,7 +7,6 @@ import DialogModal from './component/modal';
 import { getAttendeeList } from '../../api/index';
 import { formatDateTime, formatPhoneNumber } from '../../utils';
 import { User } from '../../types/index';
-import Header from './component/header';
 import Typography from '@mui/material/Typography';
 
 const Page = () => {
@@ -98,7 +97,7 @@ const Page = () => {
         setList(res.data.result);
       }
     } catch (err) {
-      console.error(err);
+      alert(err);
     }
   };
 

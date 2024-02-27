@@ -10,7 +10,7 @@ import { Typography, Box } from '@mui/material';
 import { User } from '../../../types';
 import { updateAttendee } from '../../../api/index';
 
-import styled from 'styled-components';
+import { styled } from 'styled-components';
 
 export default function DialogModal({
   id,
@@ -33,7 +33,7 @@ export default function DialogModal({
       refetchFn();
       handleCloseModal();
     } catch (e) {
-      console.error(e);
+      alert(e);
     }
   };
 
@@ -69,7 +69,8 @@ export default function DialogModal({
             row: true,
           }}
           onChange={(e) => {
-            setSelectedAttendance(e.target.value);
+            const target = e.target as HTMLInputElement;
+            setSelectedAttendance(target.value);
           }}
         >
           <RadioWithLabel
