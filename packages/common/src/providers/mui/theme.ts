@@ -161,6 +161,15 @@ const lightTheme = createTheme({
       default: '#f5f6f8',
     },
   },
+  components: {
+    MuiFormHelperText: {
+      styleOverrides: {
+        root: {
+          color: 'red',
+        },
+      },
+    },
+  },
 });
 
 const darkTheme = createTheme({

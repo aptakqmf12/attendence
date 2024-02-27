@@ -38,13 +38,9 @@ const Login = () => {
       });
 
       localStorage.setItem('access_token', res.data.result.token);
-      alert('로그인 성공');
       setIsLogin(true);
-
       navigate('/');
     } catch (error) {
-      alert(error);
-
       alert('로그인 실패');
     } finally {
       setIdValid(undefined);
@@ -73,26 +69,33 @@ const Login = () => {
             flexDirection={'column'}
             alignItems={'center'}
           >
-            <TextField
-              placeholder="아이디 입력"
-              fullWidth
-              value={id}
-              onChange={handleIdChange}
-              helperText={idValid === false ? '아이디를 입력해주세요' : ''}
-            />
+            <Box
+              display={'flex'}
+              flexDirection={'column'}
+              gap={2}
+              sx={{ width: '100%', marginTop: 4, marginBottom: 10 }}
+            >
+              <TextField
+                placeholder="아이디 입력"
+                fullWidth
+                value={id}
+                onChange={handleIdChange}
+                helperText={idValid === false ? '아이디를 입력해주세요' : ''}
+              />
 
-            <TextField
-              placeholder="비밀번호 입력"
-              fullWidth
-              value={password}
-              onChange={handlePasswordChange}
-              type="password"
-              helperText={
-                passwordValid === false ? '비밀번호를 입력해주세요' : ''
-              }
-            />
+              <TextField
+                placeholder="비밀번호 입력"
+                fullWidth
+                value={password}
+                onChange={handlePasswordChange}
+                type="password"
+                helperText={
+                  passwordValid === false ? '비밀번호를 입력해주세요' : ''
+                }
+              />
+            </Box>
 
-            <Button type="submit" fullWidth>
+            <Button size="large" sx={{ height: 52 }} type="submit" fullWidth>
               로그인
             </Button>
           </Box>

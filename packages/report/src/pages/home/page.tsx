@@ -9,16 +9,15 @@ import { formatDateTime, formatPhoneNumber } from '../../utils';
 import { User } from '../../types/index';
 import Typography from '@mui/material/Typography';
 
+const PAGE_PER_SIZE = 10;
+
 const Page = () => {
-  const PAGE_PER_SIZE = 10;
   const [currentPage, setCurrentPage] = useState(1);
   const [list, setList] = useState<User[]>([]);
-  const [modal, setModal] = useState<{ open: boolean; user: User | undefined }>(
-    {
-      open: false,
-      user: undefined,
-    },
-  );
+  const [modal, setModal] = useState<{ open: boolean; user?: User }>({
+    open: false,
+    user: undefined,
+  });
 
   const columns: GridColDef[] = [
     {
@@ -58,16 +57,14 @@ const Page = () => {
       flex: 1,
     },
     {
-      field: '',
+      field: 'btn',
       headerName: '변경',
       renderCell: (params) => {
         return (
           <Button
             size="small"
             variant="outlined"
-            onClick={() => {
-              setModal({ open: true, user: params.row });
-            }}
+            onClick={() => setModal({ open: true, user: params.row })}
           >
             변경
           </Button>
@@ -110,26 +107,30 @@ const Page = () => {
     .slice((currentPage - 1) * PAGE_PER_SIZE, currentPage * PAGE_PER_SIZE);
 
   return (
-    <Container maxWidth="xl">
-      <Typography fontSize={24} fontWeight={700}>
+    <Container maxWidth="xl" style={{ paddingTop: 40 }}>
+      <Typography fontSize={24} fontWeight={700} mb={2}>
         참석예정자 정보 조회
       </Typography>
 
       <Box bgcolor={'#fff'} padding={3}>
-        <div>전체 : {list.length}</div>
+        <Typography mb={1}>전체 : {list.length.toLocaleString()}</Typography>
         <Box
           display={'flex'}
           flexDirection={'column'}
           justifyContent={'center'}
           alignItems={'center'}
         >
-          <Box style={{ width: '100%', height: 700 }}>
+          <Box sx={{ width: '100%', height: 500 }} mb={2}>
             <DataGrid
               sx={{
                 width: '100%',
                 height: '100%',
                 '.MuiDataGrid-columnHeaders': {
+                  textAlign: 'center',
                   backgroundColor: '#F5F6F8',
+                },
+                '.MuiDataGrid-columnHeaderTitleContainer': {
+                  justifyContent: 'center',
                 },
               }}
               rows={filteredList}
@@ -139,6 +140,7 @@ const Page = () => {
                 disableColumnMenu: true,
               }))}
               autoHeight={false}
+              hideFooter
             />
           </Box>
 

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { getProfile } from '../../../api/index';
 import { useUserStore } from '../../../store/user';
@@ -35,7 +36,9 @@ export default function Header() {
           alignItems: 'center',
         }}
       >
-        <h1>EJM COMPANY</h1>
+        <h1>
+          <Link to={'/'}>EJM COMPANY</Link>
+        </h1>
 
         <div className="user_info">
           <span className="user_info_name">{info?.name}</span>
@@ -54,7 +57,10 @@ export default function Header() {
 }
 
 const StyledHeader = styled.header`
+  display: flex;
+  align-items: center;
   width: 100%;
+  height: 72px;
   background-color: #fff;
   margin: 0 auto;
 
@@ -65,8 +71,11 @@ const StyledHeader = styled.header`
   }
 
   .user_info {
-    &_name {
-    }
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
+
     &_id {
       color: #7e7e7e;
     }
