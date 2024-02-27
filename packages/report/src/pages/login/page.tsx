@@ -1,4 +1,4 @@
-import { useState, FormEvent, ChangeEvent } from 'react';
+import { useState, useEffect, FormEvent, ChangeEvent } from 'react';
 import { Container, Box, Typography } from '@mui/material';
 import Button from '@wooriga/common/src/components/Mui/inputs/Button';
 import TextField from '@wooriga/common/src/components/Mui/inputs/TextField';
@@ -14,7 +14,7 @@ const Login = () => {
   const [password, setPassword] = useState('9763^&');
   const [passwordValid, setPasswordValid] = useState<undefined | boolean>();
 
-  const { setIsLogin } = useUserStore();
+  const { setIsLogin, isLogin } = useUserStore();
 
   const handleIdChange = (e: ChangeEvent<HTMLInputElement>) => {
     setId(e.currentTarget.value);
@@ -47,6 +47,12 @@ const Login = () => {
       setPasswordValid(undefined);
     }
   };
+
+  useEffect(() => {
+    if (isLogin) {
+      navigate('/');
+    }
+  }, []);
 
   return (
     <Container
