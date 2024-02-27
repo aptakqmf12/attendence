@@ -37,7 +37,9 @@ export default function Header() {
         }}
       >
         <h1>
-          <Link to={'/'}>EJM COMPANY</Link>
+          <Link style={{}} to={'/'}>
+            EJM COMPANY
+          </Link>
         </h1>
 
         <div className="user_info">
@@ -67,7 +69,10 @@ const StyledHeader = styled.header`
   h1 {
     font-size: 20px;
     font-weight: 700;
-    color: #777;
+    a {
+      color: #777;
+      text-decoration: none;
+    }
   }
 
   .user_info {
